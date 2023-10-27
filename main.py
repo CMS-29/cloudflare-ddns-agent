@@ -3,7 +3,8 @@ import json
 import time
 
 # Read the configuration from the JSON file
-with open('config.json', 'r') as config_file:
+configpath = r'C:\CF-DDNS\config.json'
+with open(configpath, 'r') as config_file:
     config = json.load(config_file)
 
 # Replace with your Cloudflare API credentials
@@ -53,7 +54,8 @@ def update_dns_record(ip):
             record_id = data['result'][0]['id']
             update_url = f'{api_url}/{record_id}'
             record_value = data['result'][0]['content']
-            print(record_value)
+            print(f"DNS Record IP: {record_value}")
+            print(f"Current IP: {ip}")
             if record_value == ip:
                 print(f"No update required: Current IP matches Record IP")
             else:
