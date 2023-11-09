@@ -10,6 +10,7 @@ I honestly don't understand why Cloudflare doesn't have this first-party, but th
 - Only requires an API Token, not a Global API key, for security and to follow best practice.
 - Custom update frequency times - choose whether you want the agent to check for an IP change for exactly what you need, whether that is 5 seconds, 5 minutes or 5 hours.
 - Utilise the Cloudflare proxy service - you can choose whether you want to update the DNS record as Cloudflare proxy or DNS only.
+- The program is smart enough to check the existing record, so if the IP is already what it should be, the program won't update it for the hell of it; the IP will only be updated if the program sees a difference between the current and proposed IP.
 
 ## Prerequisites
 
@@ -45,3 +46,17 @@ If you're running as a service:
     Then go to Details, and name it ```Cloudflare DDNS Agent```
 6. Select ```Install Service```
 7. Go to services and start the service.
+
+## Customising the Config
+
+The sample config will, by default:
+- Not use the Cloudflare Proxy
+- Will check for updates every 2 mins (120 seconds)
+- Will set the TTL on the record to 2 mins (120 seconds)
+
+Change this however you want. 
+
+- The cloudflare proxy settings is a binary switch, that's ```true``` for enabled and ```false``` for disabled.
+- The Update Frequency is either binary or numerical. Set it to x seconds for the number of seconds between updates, or set it to ```false``` to disable the auto-update.
+    - Disabling the update frequency means that the program will run the update once, then the program will exit successfully. If running as a service, make sure when installing that you set the ```Exit``` action to stop the service, otherwise NSSM will assume that the program crashed and it will loop.
+- The TTL is numerical, set it to x seconds for the number of seconds to live.
