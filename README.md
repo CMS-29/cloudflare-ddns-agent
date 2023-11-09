@@ -35,7 +35,7 @@ As I say, you don't **have** to do this, but failing to run as a service means t
 
 If you're running manually only, that's it. Run the program.
 
-If you're running as a service:
+### Running as Service
 
 4. Copy the executable to ```C:\CF-DDNS\``` and ensure that it is named ```cf-ddns.exe```
 5. Open Terminal **as Admin**, and run the following:
