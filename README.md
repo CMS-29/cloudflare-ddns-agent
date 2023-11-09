@@ -47,6 +47,13 @@ If you're running as a service:
 6. Select ```Install Service```
 7. Go to services and start the service.
 
+### Uninstalling the Service
+
+If you need to uninstall the service, just run:
+```powershell
+nssm remove CF-DDNS
+```
+
 ## Customising the Config
 
 The sample config will, by default:
