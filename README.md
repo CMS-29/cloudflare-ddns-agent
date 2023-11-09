@@ -67,3 +67,9 @@ Change this however you want.
 - The Update Frequency is either binary or numerical. Set it to x seconds for the number of seconds between updates, or set it to ```false``` to disable the auto-update.
     - Disabling the update frequency means that the program will run the update once, then the program will exit successfully. If running as a service, make sure when installing that you set the ```Exit``` action to stop the service, otherwise NSSM will assume that the program crashed and it will loop.
 - The TTL is numerical, set it to x seconds for the number of seconds to live.
+
+## Compatibility
+
+I've seen other open-source projects to handle this task, but most of them are either Linux only, or Windows is more of an afterthought. Considering the majority of environments that I seem to come across are very much Windows over Linux, my tool is predominantly Windows-based.
+
+I don't see why you couldn't edit the python script to support Linux, it's very simple and to be honest it's probably something that I'll look at in the future, but at the moment, I'm streamlining it for Windows.
