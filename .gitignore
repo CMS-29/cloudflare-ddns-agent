@@ -1,4 +1,5 @@
 *.json
+!sample.json
 /build/
 /dist/
 *.spec
