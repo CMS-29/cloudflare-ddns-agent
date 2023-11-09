@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+import sys
 
 # Read the configuration from the JSON file
 configpath = r'C:\CF-DDNS\config.json'
@@ -81,6 +82,7 @@ if __name__ == "__main__":
         if updatefreq == False:
             runtimevar = False
             print(f"Update frequency is unset. Script will stop.")
+            sys.exit(0)
         else:
             print(f"Update frequency is set. Script will restart in {updatefreq} seconds.")
             time.sleep(updatefreq)
