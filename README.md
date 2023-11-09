@@ -33,6 +33,7 @@ As I say, you don't **have** to do this, but failing to run as a service means t
     - If you don't have a Cloudflare API Token, you can generate one from Cloudflare. Just make sure that it has edit access to your DNS zone that you will be storing the record in.
 
 If you're running manually only, that's it. Run the program.
+
 If you're running as a service:
 
 4. Copy the executable to ```C:\CF-DDNS\``` and ensure that it is named ```cf-ddns.exe```
