@@ -1,0 +1,9 @@
+{
+    "cloudflare_email": "hello@example.com",
+    "cloudflare_api_key": "apitoken",
+    "zone_id": "zoneid",
+    "record_name": "subdomain.domain.com",
+    "proxied" : false,
+    "ttl" : 120,
+    "update_freq" : 10
+}
