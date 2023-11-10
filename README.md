@@ -3,7 +3,7 @@ This one is pretty simple... a lightweight python-based application that reads a
 
 I honestly don't understand why Cloudflare doesn't have this first-party, but this will have to do in the meantime.
 
-**:exclamation: This is still in alpha, please use at own risk**
+**:warning: This is still in alpha, please use at own risk**
 
 ## Features
 
