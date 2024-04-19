@@ -2,6 +2,18 @@ import requests
 import json
 import time
 import sys
+from datetime import datetime
+
+# Add log to logfile
+logpath = r'C:\CF-DDNS\logs.txt'
+def send_to_log(type, data, path=logpath):
+    current_time = datetime.now()
+    formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+    with open(path, 'a') as file:
+        logdata = f"{formatted_time} [{type}] {data}"
+        file.write(logdata + "\n")
+
+        
 
 # Read the configuration from the JSON file
 configpath = r'C:\CF-DDNS\config.json'
@@ -30,6 +42,7 @@ def get_current_ip():
         return data['ip']
     except Exception as e:
         print(f"Failed to get the current IP address: {str(e)}")
+        send_to_log("error",f"Failed to get the current IP address: {str(e)}")
         return None
 
 # Update the Cloudflare DNS record with the current IP
@@ -56,16 +69,22 @@ def update_dns_record(ip):
             update_url = f'{api_url}/{record_id}'
             record_value = data['result'][0]['content']
             print(f"DNS Record IP: {record_value}")
+            send_to_log("info",f"DNS Record IP: {record_value}")
             print(f"Current IP: {ip}")
+            send_to_log("info",f"Current IP: {ip}")
             if record_value == ip:
                 print(f"No update required: Current IP matches Record IP")
+                send_to_log("nochange",f"No update required: Current IP matches Record IP")
             else:
                 print(f"Update required: Current IP is not the same as Record IP")
+                send_to_log("change",f"Update required: Current IP is not the same as Record IP")
                 response = requests.put(update_url, headers=headers, json=payload)
                 if response.status_code == 200:
                     print(f"DNS record for {record_name} updated successfully.")
+                    send_to_log("success",f"DNS record for {record_name} updated successfully.")
                 else:
                     print(f"Failed to update DNS record: {response.status_code} - {response.text}")
+                    send_to_log("error",f"Failed to update DNS record: {response.status_code} - {response.text}")
         else:
             print(f"Failed to retrieve DNS record: {response.status_code} - {response.text}")
     except Exception as e:
@@ -74,7 +93,10 @@ def update_dns_record(ip):
 if __name__ == "__main__":
     runtimevar = True
 
+    
+
     while runtimevar == True:
+        send_to_log("info",f"Script is starting...")
         current_ip = get_current_ip()
         if current_ip:
             update_dns_record(current_ip)
@@ -82,9 +104,11 @@ if __name__ == "__main__":
         if updatefreq == False:
             runtimevar = False
             print(f"Update frequency is unset. Script will stop.")
+            send_to_log("info",f"Update frequency is unset. Script will stop.")
             sys.exit(0)
         else:
             print(f"Update frequency is set. Script will restart in {updatefreq} seconds.")
+            send_to_log("info",f"Update frequency is set. Script will restart in {updatefreq} seconds.")
             time.sleep(updatefreq)
             
 
