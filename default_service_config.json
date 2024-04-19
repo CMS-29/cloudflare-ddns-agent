@@ -1,5 +1,8 @@
 {
     "name": "CF-DDNS",
     "displayname": "Cloudflare DDNS Agent",
-    "description": "Manages the CMS29 Cloudflare DDNS Update agent"
+    "description": "Manages the CMS29 Cloudflare DDNS Update agent",
+    "deprecated": [
+        "cloudflare-ddns-agent"
+    ]
 }

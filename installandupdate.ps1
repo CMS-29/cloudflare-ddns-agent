@@ -1,6 +1,7 @@
 param(
     [switch]$NoService,
-    [switch]$Silent
+    [switch]$Silent,
+    [switch]$NoCleanup
 )
 
 $timestamp = Get-Date -Format "yyyy-MM-dd HH-mm"
@@ -14,6 +15,7 @@ if ($serviceDefaults) {
     $serviceName = $serviceDefaults.name
     $serviceDisplayName = $serviceDefaults.displayname
     $serviceDescription = $serviceDefaults.description
+    $serviceDeprecated = $serviceDefaults.deprecated
 
     $serviceInstall = 1
 
@@ -41,13 +43,37 @@ if ($serviceDefaults) {
 
     # Service Check
     if ($serviceInstall -eq 1) {
+        # Deprecated Service Removal
+        foreach ($service in $serviceDeprecated) {
+            if (Get-Service -Name "$service" -ErrorAction SilentlyContinue) {
+                Write-Host "[WARN] Deprecated Service $service was found" -ForegroundColor Yellow
+                if ($NoCleanup) {
+                    Write-Host "[INFO] NoCleanup was specified, will not clean-up deprecated services" -ForegroundColor Cyan
+                }
+                else {
+                    
+                    if ((Get-Service -Name "$service").Status -eq "Running") {
+                        Stop-Service -Name "$service" -Force
+                    }
+                    if (Get-Command "nssm.exe" -ErrorAction SilentlyContinue) {
+                        Write-Host "[INFO] Removing Service $service" -ForegroundColor Cyan
+                        nssm.exe remove $service confirm
+                    }
+                    else {
+                        Write-Host "[WARN] NSSM not found, will not attempt to remove $service" -ForegroundColor Yellow
+                    }
+                }
+            }
+        }
+
+        # Main Service Removal 
         if (Get-Service -Name "$serviceName" -ErrorAction SilentlyContinue) {
             Write-Host "[INFO] Service CF-DDNS Exists already, will stop and remove" -ForegroundColor Cyan
             if ((Get-Service -Name "$serviceName").Status -eq "Running") {
                 Stop-Service -Name "$serviceName" -Force
             }
             if (Get-Command "nssm.exe" -ErrorAction SilentlyContinue) {
-                nssm.exe remove CF-DDNS confirm
+                nssm.exe remove "$serviceName" confirm
             }
         }
         else {
