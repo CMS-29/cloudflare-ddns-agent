@@ -1,0 +1,5 @@
+{
+    "name": "CF-DDNS",
+    "displayname": "Cloudflare DDNS Agent",
+    "description": "Manages the CMS29 Cloudflare DDNS Update agent"
+}

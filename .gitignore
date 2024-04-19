@@ -1,5 +1,6 @@
 *.json
 !sample.json
+!default_service_config.json
 /build/
 /dist/
 *.spec
