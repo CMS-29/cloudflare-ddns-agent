@@ -8,7 +8,7 @@ $timestamp = Get-Date -Format "yyyy-MM-dd HH-mm"
 Start-Transcript -Path "C:\CF-DDNS\Install and Update\cf-ddns-updater $timestamp log.txt"
 
 # Github Service Defaults Retrieval
-$serviceDefaults = Invoke-RestMethod -Uri "https://raw.githubusercontent.com/CMS-29/cloudflare-ddns-agent/main/default_service_config.json"
+$serviceDefaults = Invoke-WebRequest -Uri "https://raw.githubusercontent.com/CMS-29/cloudflare-ddns-agent/main/default_service_config.json" | ConvertFrom-Json
 
 if ($serviceDefaults) {
 
@@ -63,6 +63,9 @@ if ($serviceDefaults) {
                         Write-Host "[WARN] NSSM not found, will not attempt to remove $service" -ForegroundColor Yellow
                     }
                 }
+            }
+            else {
+                Write-Host "[INFO] Deprecated Service $service was not found" -ForegroundColor Gray
             }
         }
 
